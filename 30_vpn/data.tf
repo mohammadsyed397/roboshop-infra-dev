@@ -1,10 +1,10 @@
-data "aws_ami" "joindevops" {
-  owners           = ["973714476881"]
+data "aws_ami" "openvpn" {
+  owners           = ["679593333241"]
   most_recent      = true
 
   filter {
     name   = "name"
-    values = ["RHEL-9-DevOps-Practice"]
+    values = ["OpenVPN Access Server Community Image-8fbe3379-*"]
   }
 
   filter {
