@@ -32,7 +32,7 @@ module "vpn" {
     project = var.project
     environment = var.environment
 
-    sg_name = "$(var.project)-$(var.environment)-vpn"
+    sg_name = "vpn"
     sg_description = "This security group is for vpn"
     vpc_id = local.vpc_id
 }
