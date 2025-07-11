@@ -5,7 +5,7 @@ resource "aws_instance" "bastion" {
     subnet_id = local.public_subnet_id
     instance_type = "t3.micro"
     key_name = "king"
-    user_data = file("openvpn.ssh")
+    user_data = file("openvpn.sh")
     tags = merge (
         local.common_tags,{
             Name =  "$(var.project)-$(var.environment)-vpn"
