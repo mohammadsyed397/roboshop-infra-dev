@@ -107,6 +107,6 @@ resource "aws_security_group_rule" "mongodbports_vpn" {
   from_port         = var.mongodbports_vpn[count.index]
   to_port           = var.mongodbports_vpn[count.index]
   protocol          = "tcp"
-  source_security_group_id = modulse.vpn.sg_id
+  source_security_group_id = module.vpn.sg_id
   security_group_id = module.mongodb.sg_id
 }
