@@ -5,7 +5,7 @@ resource "aws_instance" "bastion" {
     instance_type = "t3.micro"
     tags = merge (
         local.common_tags,{
-            Name =  "$(var.project)-$(var.environment)-bastion"
+            Name =  "${var.project}-${var.environment}-bastion"
 
         }
         

@@ -8,7 +8,7 @@ resource "aws_instance" "vpn" {
     user_data = file("openvpn.sh")
     tags = merge (
         local.common_tags,{
-            Name =  "$(var.project)-$(var.environment)-vpn"
+            Name =  "${var.project}-${var.environment}-vpn"
 
         }
         
