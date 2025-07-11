@@ -16,3 +16,7 @@ variable "bastion_sg_name" {
 variable "bastion_sg_description" {
     default = "this security group is for security group"
 }
+variable "mongodbports_vpn" {
+    default = [22,27017]
+  
+}

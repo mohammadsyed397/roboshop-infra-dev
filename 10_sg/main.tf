@@ -36,6 +36,15 @@ module "vpn" {
     sg_description = "This security group is for vpn"
     vpc_id = local.vpc_id
 }
+module "mongodb" {
+    source = "git::https://github.com/mohammadsyed397/terraform-aws-securitygroup.git?ref=main"
+    project = var.project
+    environment = var.environment
+
+    sg_name = "mongodb"
+    sg_description = "This security group is for mongodb"
+    vpc_id = local.vpc_id
+}
 resource "aws_security_group_rule" "vpn_ssh" {
   type              = "ingress"
   from_port         = 22
@@ -91,4 +100,13 @@ resource "aws_security_group_rule" "bastion_laptop" {
   protocol          = "tcp"
   cidr_blocks       = ["0.0.0.0/0"]
   security_group_id = module.bastion.sg_id
+}
+resource "aws_security_group_rule" "mongodbports_vpn" {
+  count = length(var.mongodbports_vpn)
+  type = "ingress"
+  from_port         = var.mongodbports_vpn[count.index]
+  to_port           = var.mongodbports_vpn[count.index]
+  protocol          = "tcp"
+  source_security_group_id = modulse.vpn.sg_id
+  security_group_id = module.mongodb.sg_id
 }
