@@ -1,5 +1,5 @@
 
-resource "aws_instance" "bastion" {
+resource "aws_instance" "vpn" {
     ami = local.ami_id
     vpc_security_group_ids = [local.vpn_sg_id]
     subnet_id = local.public_subnet_id
