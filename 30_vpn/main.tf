@@ -15,3 +15,11 @@ resource "aws_instance" "vpn" {
         
     )
 }
+resource "aws_route53_record" "vpn" {
+    name = "${var.environment}.${var.zone_name}"
+    type = "A"
+    zone_id = var.zone_id
+    ttl = 1
+    records = [aws_instance.vpn.public_ip]
+    allow_overwrite = true
+}

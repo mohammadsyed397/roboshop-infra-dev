@@ -37,7 +37,7 @@ resource "terraform_data" "mongodb" {
   }
 }
 
-resource "aws_instance" "redis" {
+resource "aws_instance" "reddis" {
   ami           = local.ami_id
   instance_type = "t3.micro"
   vpc_security_group_ids = [local.redis_sg_id]
@@ -46,14 +46,14 @@ resource "aws_instance" "redis" {
   tags = merge(
     local.common_tags,
     {
-        Name = "${var.project}-${var.environment}-redis"
+        Name = "${var.project}-${var.environment}-reddis"
     }
   )
 }
 
-resource "terraform_data" "redis" {
+resource "terraform_data" "reddis" {
   triggers_replace = [
-    aws_instance.redis.id
+    aws_instance.reddis.id
   ]
   
   provisioner "file" {
@@ -65,13 +65,13 @@ resource "terraform_data" "redis" {
     type     = "ssh"
     user     = "ec2-user"
     password = "DevOps321"
-    host     = aws_instance.redis.private_ip
+    host     = aws_instance.reddis.private_ip
   }
 
   provisioner "remote-exec" {
     inline = [
       "chmod +x /tmp/bootstrap.sh",
-      "sudo sh /tmp/bootstrap.sh redis ${var.environment}"
+      "sudo sh /tmp/bootstrap.sh reddis ${var.environment}"
     ]
   }
 }
@@ -152,4 +152,39 @@ resource "terraform_data" "rabbitmq" {
       "sudo sh /tmp/bootstrap.sh rabbitmq ${var.environment}"
     ]
   }
+}
+resource "aws_route53_record" "mongodb" {
+  zone_id = var.zone_id
+  name    = "mongodb.${var.zone_name}" 
+  type    = "A"
+  ttl     = 1
+  records = [aws_instance.mongodb.private_ip]
+  allow_overwrite = true
+}
+
+resource "aws_route53_record" "reddis" {
+  zone_id = var.zone_id
+  name    = "reddis.${var.zone_name}"
+  type    = "A"
+  ttl     = 1
+  records = [aws_instance.reddis.private_ip]
+  allow_overwrite = true
+}
+
+resource "aws_route53_record" "mysql" {
+  zone_id = var.zone_id
+  name    = "mysql.${var.zone_name}"
+  type    = "A"
+  ttl     = 1
+  records = [aws_instance.mysql.private_ip]
+  allow_overwrite = true
+}
+
+resource "aws_route53_record" "rabbitmq" {
+  zone_id = var.zone_id
+  name    = "rabbitmq.${var.zone_name}"
+  type    = "A"
+  ttl     = 1
+  records = [aws_instance.rabbitmq.private_ip]
+  allow_overwrite = true
 }
