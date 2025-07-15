@@ -91,7 +91,6 @@ resource "terraform_data" "catalogue_delete" {
   update_default_version = true # each time you update, new version will become default
   tag_specifications {
     resource_type = "instance"
-    # EC2 tags created by ASG
     tags = merge(
       local.common_tags,
       {
@@ -100,4 +99,5 @@ resource "terraform_data" "catalogue_delete" {
     )
   }
   }
+  
 
