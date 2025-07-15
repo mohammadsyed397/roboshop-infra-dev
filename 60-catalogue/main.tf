@@ -81,5 +81,23 @@ resource "terraform_data" "catalogue_delete" {
 
     
   }
-  
+  resource "aws_launch_template" "catalogue" {
+  name = "${var.project}-${var.environment}-catalogue"
+
+  image_id = aws_ami_from_instance.catalogue.id
+  instance_initiated_shutdown_behavior = "terminate"
+  instance_type = "t3.micro"
+  vpc_security_group_ids = [local.catalogue_sg_id]
+  update_default_version = true # each time you update, new version will become default
+  tag_specifications {
+    resource_type = "instance"
+    # EC2 tags created by ASG
+    tags = merge(
+      local.common_tags,
+      {
+        Name = "${var.project}-${var.environment}-catalogue"
+      }
+    )
+  }
+  }
 
