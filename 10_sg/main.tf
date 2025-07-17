@@ -310,7 +310,7 @@ resource "aws_security_group_rule" "redis_cart" {
   to_port           = 5679
   protocol          = "tcp"
   source_security_group_id = module.cart.sg_id
-  security_group_id = module.redis
+  security_group_id = module.redis.sg_id
 }
 resource "aws_security_group_rule" "mysql_shipping" {
   type              = "ingress"
