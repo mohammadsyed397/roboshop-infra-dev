@@ -15,7 +15,7 @@ resource "aws_acm_certificate" "robosyed" {
 }
 resource "aws_route53_record" "robosyed" {
   for_each = {
-    for dvo in aws_acm_certificate.robosyed : dvo.domain_name => {
+    for dvo in aws_acm_certificate.robosyed.domain_validation_options  : dvo.domain_name => {
       name   = dvo.resource_record_name
       record = dvo.resource_record_value
       type   = dvo.resource_record_type
@@ -30,6 +30,6 @@ resource "aws_route53_record" "robosyed" {
   zone_id         = var.zone_id
 }
 resource "aws_acm_certificate_validation" "robosyed" {
-  certificate_arn         = aws_acm_certificate.robosyed
+  certificate_arn         = aws_acm_certificate.robosyed.arn
   validation_record_fqdns = [for record in aws_route53_record.robosyed : record.fqdn]
 }

@@ -15,8 +15,8 @@ module "frontend_alb" {
     }
   )
 }
-resource "aws_lb_listener" "forntend_alb" {
-  load_balancer_arn = module.forntend_alb.arn
+resource "aws_lb_listener" "frontend_alb" {
+  load_balancer_arn = module.frontend_alb.arn
   port              = "443"
   protocol          = "HTTPs"
   ssl_policy = "ELBSecurityPolicy-2016-08"
