@@ -60,7 +60,7 @@ resource "aws_ssm_parameter" "shipping_sg_id" {
   value = module.shipping.sg_id
 }
 resource "aws_ssm_parameter" "payment_sg_id" {
-    name  = "/${var.project}/${var.environment}/frontend_alb_sg_id"
+    name  = "/${var.project}/${var.environment}/payment_sg_id"
   type  = "String"
   value = module.payment.sg_id
 }

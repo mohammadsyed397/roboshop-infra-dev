@@ -271,7 +271,6 @@ resource "aws_security_group_rule" "frontend_frontend_alb" {
   security_group_id = module.frontend.sg_id
 }
 
-#Frontend ALB
 resource "aws_security_group_rule" "frontend_alb_http" {
   type              = "ingress"
   from_port         = 80
@@ -289,3 +288,56 @@ resource "aws_security_group_rule" "frontend_alb_https" {
   cidr_blocks = ["0.0.0.0/0"]
   security_group_id = module.frontend_alb.sg_id
 }
+resource "aws_security_group_rule" "mongodb_user" {
+  type              = "ingress"
+  from_port         = 27017
+  to_port           = 27017
+  protocol          = "tcp"
+  source_security_group_id = module.user.sg_id
+  security_group_id = module.mongodb.sg_id
+}
+resource "aws_security_group_rule" "redis_user" {
+  type              = "ingress"
+  from_port         = 5679
+  to_port           = 5679
+  protocol          = "tcp"
+  source_security_group_id = module.user.sg_id
+  security_group_id = module.redis.sg_id
+}
+resource "aws_security_group_rule" "redis_cart" {
+  type              = "ingress"
+  from_port         = 5679
+  to_port           = 5679
+  protocol          = "tcp"
+  source_security_group_id = module.cart.sg_id
+  security_group_id = module.redis
+}
+resource "aws_security_group_rule" "mysql_shipping" {
+  type              = "ingress"
+  from_port         = 3306
+  to_port           = 3306
+  protocol          = "tcp"
+  source_security_group_id = module.shipping.sg_id
+  security_group_id = module.mysql.sg_id
+}
+resource "aws_security_group_rule" "rabbitmq__payment" {
+  type              = "ingress"
+  from_port         = 5672
+  to_port           = 5672
+  protocol          = "tcp"
+  source_security_group_id = module.payment.sg_id
+  security_group_id = module.rabbitmq.sg_id
+}
+resource "aws_security_group_rule" "mongodb_user" {
+  type              = "ingress"
+  from_port         = 27017
+  to_port           = 27017
+  protocol          = "tcp"
+  source_security_group_id = module.user.sg_id
+  security_group_id = module.mongodb.sg_id
+}
+
+
+
+
+
