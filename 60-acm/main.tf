@@ -1,4 +1,4 @@
-resource "aws_acm_certificate" "roboshop" {
+resource "aws_acm_certificate" "robosyed" {
   domain_name       = var.zone_name
   validation_method = "DNS"
 
@@ -13,9 +13,9 @@ resource "aws_acm_certificate" "roboshop" {
     create_before_destroy = true
   }
 }
-resource "aws_route53_record" "robsoyed" {
+resource "aws_route53_record" "robosyed" {
   for_each = {
-    for dvo in aws_acm_certificate.daws84s.domain_validation_options : dvo.domain_name => {
+    for dvo in aws_acm_certificate.robosyed : dvo.domain_name => {
       name   = dvo.resource_record_name
       record = dvo.resource_record_value
       type   = dvo.resource_record_type
@@ -30,6 +30,6 @@ resource "aws_route53_record" "robsoyed" {
   zone_id         = var.zone_id
 }
 resource "aws_acm_certificate_validation" "robosyed" {
-  certificate_arn         = aws_acm_certificate.robsoyed.arn
+  certificate_arn         = aws_acm_certificate.robosyed
   validation_record_fqdns = [for record in aws_route53_record.robosyed : record.fqdn]
 }
