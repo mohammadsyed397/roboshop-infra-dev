@@ -7,6 +7,15 @@ module "backend_alb" {
     sg_description = "for backend alb"
     vpc_id = local.vpc_id
 }
+module "frontend_alb" {
+    source = "git::https://github.com/mohammadsyed397/terraform-aws-securitygroup.git?ref=main"
+    project = var.project
+    environment = var.environment
+
+    sg_name = "frontend-alb"
+    sg_description = "for forntend alb"
+    vpc_id = local.vpc_id
+}
 
 module "frontend" {
     source = "git::https://github.com/mohammadsyed397/terraform-aws-securitygroup.git?ref=main"
@@ -76,8 +85,44 @@ module "catalogue" {
     source = "git::https://github.com/mohammadsyed397/terraform-aws-securitygroup.git?ref=main"
     project = var.project
     environment = var.environment
+
     sg_name = "catalogue"
-    sg_description = "This security group is for catalogue"
+    sg_description = "catalogue"
+    vpc_id = local.vpc_id
+}
+module "cart" {
+    source = "git::https://github.com/mohammadsyed397/terraform-aws-securitygroup.git?ref=main"
+    project = var.project
+    environment = var.environment
+
+    sg_name = "cart"
+    sg_description = "cart"
+    vpc_id = local.vpc_id
+}
+module "user" {
+    source = "git::https://github.com/mohammadsyed397/terraform-aws-securitygroup.git?ref=main"
+    project = var.project
+    environment = var.environment
+
+    sg_name = "user"
+    sg_description = "user"
+    vpc_id = local.vpc_id
+}
+module "shipping" {
+    source = "git::https://github.com/mohammadsyed397/terraform-aws-securitygroup.git?ref=main"
+    project = var.project
+    environment = var.environment
+
+    sg_name = "shipping"
+    sg_description = "shipping"
+    vpc_id = local.vpc_id
+}
+module "payment" {
+    source = "git::https://github.com/mohammadsyed397/terraform-aws-securitygroup.git?ref=main"
+    project = var.project
+    environment = var.environment
+    sg_name = "payment"
+    sg_description = "This security group is for payment"
     vpc_id = local.vpc_id
 }
 resource "aws_security_group_rule" "vpn_ssh" {
@@ -216,4 +261,31 @@ resource "aws_security_group_rule" "catalogue_mongodb" {
   source_security_group_id = module.catalogue.sg_id
   security_group_id = module.mongodb.sg_id
   
+}
+resource "aws_security_group_rule" "frontend_frontend_alb" {
+  type              = "ingress"
+  from_port         = 80
+  to_port           = 80
+  protocol          = "tcp"
+  source_security_group_id = module.frontend_alb.sg_id
+  security_group_id = module.frontend.sg_id
+}
+
+#Frontend ALB
+resource "aws_security_group_rule" "frontend_alb_http" {
+  type              = "ingress"
+  from_port         = 80
+  to_port           = 80
+  protocol          = "tcp"
+  cidr_blocks = ["0.0.0.0/0"]
+  security_group_id = module.backend_alb.sg_id
+}
+
+resource "aws_security_group_rule" "frontend_alb_https" {
+  type              = "ingress"
+  from_port         = 443
+  to_port           = 443
+  protocol          = "tcp"
+  cidr_blocks = ["0.0.0.0/0"]
+  security_group_id = module.frontend_alb.sg_id
 }
