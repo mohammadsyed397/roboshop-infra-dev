@@ -8,7 +8,7 @@ terraform {
   }
   backend "s3" {
     bucket        = "terraform-roboshop-prac"
-    key           = "roboshop-infra-dev-user"
+    key           = "roboshop-infra-dev-components"
     region        = "us-east-1"
     encrypt       = true
 
