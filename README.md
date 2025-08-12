@@ -18,13 +18,16 @@ This setup is production-ready, scalable, and secure — ideal for e-commerce or
 
 ## 🏗 Architecture Diagram
 
-```mermaid
 graph TD
-    A[User] --> B[ALB - HTTPS]
-    B --> C[Public Subnet EC2 / App Servers]
-    B --> D[Private Subnet - RDS Database]
-    A -->|SSH| E[Bastion Host]
-    E --> C
-    C --> D
+    Dev[Developer / Admin] -->|VPN Connection| VPNServer[OpenVPN Server - Public Subnet]
+    VPNServer --> App[Private Subnet - App Servers]
+    VPNServer --> DB[Private DB Subnet - Databases]
+    User[Customer] -->|HTTPS| ALB[Application Load Balancer - Public Subnet]
+    ALB --> App
+    App --> DB
+    App --> Cache[Private Subnet - Cache Layer]
+    Ansible[Ansible Config Mgmt] --> App
+    Ansible --> DB
+
     B --> F[S3 Bucket for Assets]
 
