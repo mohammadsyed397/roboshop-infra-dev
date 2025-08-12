@@ -28,6 +28,5 @@ graph TD
     User[Customer] -->|HTTPS| ALB[Application Load Balancer - Public Subnet]
     ALB --> App
     App --> DB
-    App --> Cache[Private Subnet - Cache Layer]
     Ansible[Ansible Config Mgmt] --> App
     Ansible --> DB
