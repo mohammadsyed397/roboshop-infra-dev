@@ -1,6 +1,6 @@
 # Roboshop Infrastructure – Terraform & VPN Secured AWS Environment
 
-This repository contains a **production-ready AWS infrastructure** deployment for the **Roboshop e-commerce platform**, built with **Terraform** and secured with a **VPN gateway** using AWS OpenVPN Community Edition.  
+This repository contains a **production-ready AWS infrastructure** deployment for the **Roboshop e-commerce platform**, built with **Terraform** and secured with a **VPN gateway** using AWS OpenVPN Community Edition.
 
 The setup includes modular Terraform components to build a secure, scalable, and highly available cloud environment — ideal for ecommerce or similar workloads requiring strong security and automation.
 
@@ -22,12 +22,12 @@ The setup includes modular Terraform components to build a secure, scalable, and
 
 ```mermaid
 graph TD
-    Dev[Developer/Admin] -->|VPN Connection| VPNServer[OpenVPN VPN Server]
-    VPNServer --> App[App Servers (Private Subnet)]
-    VPNServer --> DB[Databases (Private DB Subnet)]
-    User[Customer] -->|HTTPS| ALB[Application Load Balancer (Public Subnet)]
-    ALB --> App
-    App --> DB
-    Bastion[Bastion Host (Public Subnet)] --> App
-    Ansible --> App
-    Ansible --> DB
+Dev[Developer/Admin] -->|VPN Connection| VPNServer[OpenVPN VPN Server]
+VPNServer --> App[App Servers (Private Subnet)]
+VPNServer --> DB[Databases (Private DB Subnet)]
+User[Customer] -->|HTTPS| ALB[Application Load Balancer (Public Subnet)]
+ALB --> App
+App --> DB
+Bastion[Bastion Host (Public Subnet)] --> App
+Ansible --> App
+Ansible --> DB
