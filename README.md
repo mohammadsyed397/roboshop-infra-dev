@@ -22,12 +22,15 @@ The setup includes modular Terraform components to build a secure, scalable, and
 
 ```mermaid
 graph TD
-    Dev[Developer/Admin] -->|VPN Connection| VPNServer[OpenVPN VPN Server]
-    VPNServer --> App[App Servers (Private Subnet)]
-    VPNServer --> DB[Databases (Private DB Subnet)]
-    User[Customer] -->|HTTPS| ALB[Application Load Balancer (Public Subnet)]
+    %% Define icons with labels (replace if you upload images to repo)
+    classDef awsIcon fill:#232F3E,color:#fff,stroke:#fff,stroke-width:0.5px,font-weight:bold,font-family:Arial,sans-serif;
+
+    Dev[Developer/Admin]:::awsIcon -->|VPN Connection| VPNServer[VPN Server (OpenVPN)\nPublic Subnet]:::awsIcon
+    VPNServer --> App[Application Servers\nPrivate Subnet]:::awsIcon
+    VPNServer --> DB[Databases (RDS / NoSQL)\nPrivate DB Subnet]:::awsIcon
+    User[Customer]:::awsIcon -->|HTTPS| ALB[Application Load Balancer (ALB)\nPublic Subnet]:::awsIcon
     ALB --> App
     App --> DB
-    Bastion[Bastion Host (Public Subnet)] --> App
-    Ansible --> App
+    Bastion[Bastion Host\nPublic Subnet]:::awsIcon --> App
+    Ansible[Ansible Config Mgmt] --> App
     Ansible --> DB
